@@ -4,7 +4,7 @@ Material del curso ASP.NET Core 6 MVC - Aplicaciones web basadas en datos, dispo
 ### Ambiente de desarrollo
 * Windows Terminal.
 * PowerShell Core.
-https://aka.ms/powershell-release?tag=lts
+  - https://aka.ms/powershell-release?tag=lts
 * Dot Net Core SDK.
 https://dot.net
 dotnet tool install --global dotnet-ef
