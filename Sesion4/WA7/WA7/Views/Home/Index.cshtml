@@ -1,0 +1,36 @@
+﻿@model WA7.ViewModels.HomeIndexViewModel
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<form asp-action="Index">
+    <input asp-for="Filter" class="form-control" />
+</form>
+
+@if (Model.Products != null && Model.Products.Count() > 0)
+{
+    <p class="alert alert-info">@Model.Products.Count()</p>
+    <table class="table table-striped">
+        @foreach (var p in Model.Products)
+        {
+            <tr><td>@p.ProductName</td></tr>
+        }
+    </table>
+}
+
+@section Scripts
+    {
+    <script>
+        console.log('Desde la sección de scripts');
+    </script>
+}
+
+@section quote
+{
+    @*RECUERDEN HACER ESTO NO ES BUENA PRÁCTICA 😢*@
+    @{
+        var quote = new WA7.Data.QuoteD();
+    }
+    <p>@quote.GetOne()</p>
+}

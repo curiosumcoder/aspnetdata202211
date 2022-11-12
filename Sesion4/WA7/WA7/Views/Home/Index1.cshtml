@@ -1,0 +1,23 @@
+﻿@*@using WA7.Models*@
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+@*<p>Filter: @ViewBag.Filter</p>*@
+<p>Filter: @ViewData["Filter"]</p>
+
+@{
+    var products = (List<Product>)ViewBag.products;
+    var products1 = ViewData["Filter"] as List<Product>;
+}
+
+@if (products != null && products.Count > 0)
+{
+    <table class="table table-striped">
+        @foreach (var p in products)
+        {
+            <tr><td>@p.ProductName</td></tr>
+        }
+    </table>
+}
