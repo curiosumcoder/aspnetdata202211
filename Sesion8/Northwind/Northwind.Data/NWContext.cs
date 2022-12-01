@@ -71,8 +71,12 @@ public partial class NWContext : DbContext
     public virtual DbSet<Territory> Territories { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Data Source=.\\sqlexpress;Database=Northwind;Integrated Security=SSPI;MultipleActiveResultSets=true;TrustServerCertificate=True;Encrypt=True");
+    {
+        if (!optionsBuilder.IsConfigured)
+        {
+            throw new InvalidOperationException("Se requiere de configuración con un ConnentionString. Verifique archivo de configuración.");
+        }
+    }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
