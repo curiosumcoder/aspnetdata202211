@@ -25,6 +25,10 @@ public partial class Product
 
     public bool Discontinued { get; set; }
 
+    public byte[]? Image { get; set; }
+
+    public string? ImageType { get; set; }
+
     public virtual Category? Category { get; set; }
 
     public virtual ICollection<OrderDetail> OrderDetails { get; } = new List<OrderDetail>();

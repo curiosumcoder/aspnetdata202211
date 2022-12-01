@@ -60,10 +60,20 @@ namespace Northwind.UI.Intranet.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ProductId,ProductName,SupplierId,CategoryId,QuantityPerUnit,UnitPrice,UnitsInStock,UnitsOnOrder,ReorderLevel,Discontinued")] Product product)
+        public async Task<IActionResult> Create([Bind("ProductId,ProductName,SupplierId,CategoryId,QuantityPerUnit,UnitPrice,UnitsInStock,UnitsOnOrder,ReorderLevel,Discontinued")] Product product, IFormFile image)
         {
             if (ModelState.IsValid)
             {
+                if (image != null)
+                {
+                    product.ImageType = image.ContentType;
+                    using (MemoryStream ms = new())
+                    {
+                        image.CopyTo(ms);                        
+                        product.Image = ms.ToArray();
+                    }
+                }
+
                 _context.Add(product);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -170,6 +180,18 @@ namespace Northwind.UI.Intranet.Areas.Admin.Controllers
         private bool ProductExists(int id)
         {
           return _context.Products.Any(e => e.ProductId == id);
+        }
+
+        public async Task<IActionResult> GetImage(int? id)
+        {
+            var product = await _context.Products
+                .FirstOrDefaultAsync(m => m.ProductId == id);
+            if (product == null)
+            {
+                return NoContent();
+            }
+
+            return File(product.Image, product.ImageType);
         }
     }
 }

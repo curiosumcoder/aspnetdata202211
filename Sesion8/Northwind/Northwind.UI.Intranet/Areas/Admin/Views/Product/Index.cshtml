@@ -8,7 +8,7 @@
 
 <p>
     @*Helpers*@
-@*    <a href="/Admin/Product/Create">Create New</a>*@
+    @*    <a href="/Admin/Product/Create">Create New</a>*@
     @*Tag Helper*@
     <a asp-action="Create">Create New</a>
 </p>
@@ -77,6 +77,14 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.Supplier.CompanyName)
                 </td>
+                <td>
+                    @if (item.Image != null && item.Image.Length > 0)
+                    {
+                        <img src="@Url.Action("GetImage","Product", new { id = item.ProductId})"
+                     alt="Imagen de producto">
+                    }
+                </td>
+
                 <td>
                     <a asp-action="Edit" asp-route-id="@item.ProductId">Edit</a> |
                     <a asp-action="Details" asp-route-id="@item.ProductId">Details</a> |
