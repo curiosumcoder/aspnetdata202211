@@ -1,0 +1,93 @@
+﻿@model IList<Northwind.Model.Product>
+
+@{
+    ViewData["Title"] = "Paginacion";
+}
+
+<h1>Tabular</h1>
+
+<table class="table" id="products">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model[0].ProductId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model[0].ProductName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model[0].SupplierId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model[0].CategoryId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model[0].QuantityPerUnit)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model[0].UnitPrice)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model[0].UnitsInStock)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model[0].UnitsOnOrder)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model[0].ReorderLevel)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model[0].Discontinued)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ProductId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ProductName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SupplierId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CategoryId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.QuantityPerUnit)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UnitPrice)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UnitsInStock)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UnitsOnOrder)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ReorderLevel)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Discontinued)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<script>
+    $(function () {
+        $('#products').DataTable();
+        console.log('Document ready!');
+    });
+</script>
+
+@section Scripts
+    {
+    <script charset="utf8" src="https://cdn.datatables.net/1.13.2/js/jquery.dataTables.js"></script>
+ }
