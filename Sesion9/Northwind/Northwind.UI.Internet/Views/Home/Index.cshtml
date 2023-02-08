@@ -1,0 +1,92 @@
+﻿@model HomeIndexViewModel
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<cache expires-sliding="@TimeSpan.FromSeconds(5)">
+    @*por defecto en cache se mantiene por 20 minutos*@
+    <h5>Prueba de cache</h5>    
+    <p>@DateTime.Now</p>
+</cache>
+
+@{
+    var offer = ViewBag.offer as Product;
+    if (offer != null)
+    {
+        <div class="alert alert-info" role="alert">
+        <strong>Oferta: </strong> @offer.ProductName @offer.UnitPrice
+        </div>
+    }
+}
+
+<form asp-action="Index">
+    <input asp-for="Filter" class="form-control" />
+</form>
+
+<form asp-action="Add" asp-controller="Cart">
+    <div class="d-flex flex-row-reverse">
+        <button type="submit" class="btn btn-primary">Enviar</button>
+    </div>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    <a href="@Url.Action("Index", new { filter = Model.Filter, Order="ProductName"})">@Html.DisplayNameFor(model => model.Products[0].ProductName)</a>
+                </th>
+                <th>
+                    <a href="@Url.Action("Index", new { filter = Model.Filter, Order="UnitPrice"})">@Html.DisplayNameFor(model => model.Products[0].UnitPrice)</a>
+                </th>
+                <th>
+                    <a href="@Url.Action("Index", new { filter = Model.Filter, Order="Category.CategoryName"})">@Html.DisplayNameFor(model => model.Products[0].Category)</a>
+                </th>
+                <th>
+                    <a href="@Url.Action("Index", new { filter = Model.Filter, Order="Supplier.CompanyName"})">@Html.DisplayNameFor(model => model.Products[0].Supplier)</a>
+                </th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Products)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ProductName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.UnitPrice)
+                    </td>
+                    <td>
+                        @item.Category?.CategoryName
+                    </td>
+                    <td>
+                        @item.Supplier?.CompanyName
+                    </td>
+                    <td>
+                        @Html.Hidden("products.Index", item.ProductId)
+                        @Html.Hidden($"products[{item.ProductId}].ProductId", item.ProductId)
+                        @Html.CheckBox($"products[{item.ProductId}].Add", false)
+                    </td>
+                    <td>
+                        <a href="@Url.ActionLink("Add","Cart", new {id=item.ProductId})"
+                       class="btn btn-primary">Add</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+</form>
+
+<nav aria-label="...">
+    <ul class="pagination">
+        @for (int i = 1; i <= Math.Ceiling((decimal)Model.FilterResults / 10); i++)
+        {
+            <li class="page-item @(Model.Page == i? "active": "")">
+                <a class="page-link" href="@Url.Action("Index", new { filter = Model.Filter, page=i, order=Model.Order })">@i</a>
+            </li>
+        }
+    </ul>
+</nav>
